@@ -1,0 +1,11 @@
+{
+  "cbse.test.movie.MovieLister": {
+    "impl": "cbse.test.movie.MovieLister"
+  },
+  "cbse.test.movie.MovieFinder": {
+    "impl": "cbse.test.movie.JsonMovieFinder",
+    "params": [
+      "movies.json"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "cbse.test.message.Watcher": {
+    "impl": "cbse.test.message.Watcher",
+    "params": ["Nagios"]
+  },
+  "cbse.test.message.MessageService": {
+    "impl": "cbse.test.message.EmailService",
+    "params": ["panica@ligaac.ro"]
+  }
+}
