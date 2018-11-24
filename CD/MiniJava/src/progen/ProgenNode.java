@@ -4,8 +4,18 @@ import javax.swing.tree.*;
 import java.util.*;
 import minijavaparser.*;
 
-public class ProgenNode extends SimpleNode implements TreeNode, Enumeration
+public class ProgenNode extends SimpleNode implements TreeNode, Enumeration<Node>
 {	
+	public void setSymbolTable(Object symbolTable)
+	{
+		
+	}
+	
+	public Object getSymbolTable()
+	{
+		return null;
+	}
+	
 	public ProgenNode(int id) 
 	{
 		super(id);
@@ -49,7 +59,7 @@ public class ProgenNode extends SimpleNode implements TreeNode, Enumeration
 	/**
 	 * Methods from TreeNode interface.
 	 */
-	public Enumeration children()
+	public Enumeration<Node> children()
 	{
   	    return this;
 	}
@@ -102,7 +112,7 @@ public class ProgenNode extends SimpleNode implements TreeNode, Enumeration
                 (m_nCurrentIndex<children.length-1);
 	}
 
-	public Object nextElement()
+	public Node nextElement()
 	{
 		int nIndex;
 		nIndex=m_nCurrentIndex;

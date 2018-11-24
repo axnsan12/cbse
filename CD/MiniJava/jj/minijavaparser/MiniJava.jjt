@@ -1,6 +1,6 @@
 options
 {
-	LOOKAHEAD = 3;
+	LOOKAHEAD = 1;
 	FORCE_LA_CHECK = true;
 	CHOICE_AMBIGUITY_CHECK = 2;
 	OTHER_AMBIGUITY_CHECK = 1;
@@ -15,32 +15,36 @@ options
 	MULTI = true;
 	VISITOR = true;
 	NODE_DEFAULT_VOID = true;
+	NODE_SCOPE_HOOK = true;
 }
 
 PARSER_BEGIN(MiniJava)
 package minijavaparser;
 
 import java.io.*;
+import java.util.*;
+import progen.*;
 
 public class MiniJava
-{	
-	public static void main(String args[]) 
-	{
-	    System.err.println("Reading from standard input...");
-	    try 
-	    {
-	      	MiniJava p = new MiniJava(new FileInputStream(new File("./samples/test01.java")));
-	    	ASTProgram root = p.Program();
-	    	root.dump(">");
-			System.out.println("Thank you.");
-	    } 
-	    catch (Exception e) 
-	    {									      
-			System.err.println("Oops.");
-			System.err.println(e.getMessage());
-			e.printStackTrace();
-	    }
+{
+	public void setTabSize(int size) {
+		jj_input_stream.setTabSize(size);
 	}
+
+	public int getTabSize() {
+		return jj_input_stream.getTabSize(0);
+	}
+      
+	static void jjtreeOpenNodeScope(Node n)
+	{
+		((ProgenNode)n).setSymbolTable(null);
+	}
+
+	static void jjtreeCloseNodeScope(Node n)
+	{
+	}
+	
+	
 }
 PARSER_END(MiniJava)
 
@@ -86,15 +90,19 @@ TOKEN : /* IDENTIFIERS */
 
 TOKEN : /* LITERALS */
 {
-  < INT_LITERAL: ("-")? (<DIGIT>)+ >
+  < INT_LITERAL: ("-")? (<DIGIT>)+ > |
+  < STRING_LITERAL: "\"" (("\\" ("\\" | "n" | "r" | "\"")) | ~["\\","\n","\r","\""] )* "\"" >
 }
 
 TOKEN : /* OPERATORS */
 {
   < BINARYOP1: ["+","-"] > |
   < BINARYOP2: ["*","/"] > |
-  < ASSIGNOPERATOR: ":=" > |
+  < ASSIGNOPERATOR: "=" > |
   < NOTOPERATOR: "!" > |
+  < COMPARATOR: ("=="|"!="|"<"|"<="|">"|">=") > |
+  < LOGICOP1: ("||") > |
+  < LOGICOP2: ("&&") > |
   < DOT: "." >
 }
 
@@ -120,8 +128,8 @@ ASTProgram Program() #Program: { }
 
 void MainClass() #MainClass: { }
 {
-	<CLASS> <ID> <LACCOLADE> <PUBLIC> <STATIC> <VOID> <MAIN> <LPAREN> <STRING> <LBRACKET><RBRACKET> <ID> <RPAREN> 
-		<LACCOLADE> Statement() <RACCOLADE>
+	<CLASS> <ID> <LACCOLADE> <PUBLIC> <STATIC> <VOID> <MAIN> <LPAREN> (<STRING> <LBRACKET><RBRACKET> <ID>)? <RPAREN> 
+		MethodBody()
 	<RACCOLADE>
 }
 
@@ -133,8 +141,13 @@ void ClassDecl() #ClassDeclaration: { }
 void MethodDecl() #MethodDeclaration: { }
 {
 	<PUBLIC> (<STATIC>)? ReturnType() <ID> <LPAREN> (ParamDecl())? (<COMMA> ParamDecl())* <RPAREN> 
-	<LACCOLADE> ( VarDecl() | Statement() )* (<RETURN> (Expr())? <SEMICOLON>) #ReturnStatement <RACCOLADE>
+	MethodBody()
 }
+
+void MethodBody(): { }
+{
+	<LACCOLADE> (LOOKAHEAD(2) VarDecl() | Statement())* <RACCOLADE>
+} 
 
 void ReturnType(): { }
 {
@@ -156,21 +169,29 @@ void VarDecl() #VariableDeclaration: { }
 	VarType() <ID> <SEMICOLON>
 }
 
-void Statement() #Statement: { }
+void Statement(): { }
 {
-	(<LACCOLADE> (Statement())* <RACCOLADE>)
-	| (<IF> <LPAREN> Expr() <RPAREN> Statement() <ELSE> Statement()) #IfStatement
+	(<LACCOLADE> ( Statement() )* <RACCOLADE>) #BlockStatement
+	| (<IF> <LPAREN> Expr() <RPAREN> Statement() (<ELSE> Statement())?) #IfStatement
 	| (<WHILE> <LPAREN> Expr() <RPAREN> Statement()) #WhileStatement
 	| (<PRINTLN> <LPAREN> Expr() <RPAREN> <SEMICOLON>) #PrintStatement
-	| (<ID> (<LBRACKET> Expr() <RBRACKET>)? <ASSIGNOPERATOR> Expr()) #AssignmentStatement
+	| (Expr() <ASSIGNOPERATOR> Expr() <SEMICOLON>) #AssignmentStatement
+	| (<RETURN> (Expr())? <SEMICOLON>) #ReturnStatement
 }
 
-void PrimaryExpr(): { }
+void LogicalExpr1(): { }
 {
-	<TRUE> | <FALSE> | <ID> | <THIS> | <INT_LITERAL>
-	| (<NEW> <ID> <LPAREN><RPAREN>) 
-	| (<NOTOPERATOR> Expr()) 
-	| (<LPAREN> Expr() <RPAREN>)
+    LogicalExpr2() (<LOGICOP1> LogicalExpr2())*
+}
+
+void LogicalExpr2(): { }
+{
+	CmpExpr() (<LOGICOP2> CmpExpr())*
+}
+
+void CmpExpr(): { }
+{
+	BinaryExpr1() (<COMPARATOR> BinaryExpr1())*
 }
 
 void BinaryExpr1(): { }
@@ -183,18 +204,37 @@ void BinaryExpr2(): { }
 	PostExpr() (<BINARYOP2> PostExpr())*
 }
 
+void CallArgList(): { }
+{
+	(<LPAREN> (Expr() (<COMMA> Expr())*)? <RPAREN>)
+}
+
 void PostExpr(): { }
 {
 	PrimaryExpr() (
 		(<LBRACKET> Expr() <RBRACKET>)
 		| (<DOT> (
 			<LENGTH> 
-			| (<ID> <LPAREN> (Expr())? (<COMMA> Expr())* <RPAREN>)
+			| (<ID> (CallArgList())?)
 		))
+		| CallArgList()
 	)?
 }
 
-void Expr() #Expression: { }
+void PrimaryExpr(): { }
 {
-	BinaryExpr1()
+	(<TRUE> | <FALSE> | <ID> | <THIS> | <INT_LITERAL> | <STRING_LITERAL>)  
+	| (<NOTOPERATOR> Expr()) #LogicalNegationExpression
+	| (<LPAREN> Expr() <RPAREN>)
+	| NewExpr()
+}
+
+void NewExpr() #NewExpression: { Token className; }
+{
+	(<NEW> className = <ID> { jjtThis.className = className.image; } <LPAREN><RPAREN>)
+}
+
+void Expr(): { }
+{
+	LogicalExpr1()
 }

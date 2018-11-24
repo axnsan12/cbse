@@ -11,7 +11,8 @@ public class MainClass
 	    System.out.println("Reading from standard input...");
 	    try 
 	    {
-	      	MiniJava p = new MiniJava(new FileInputStream(new File("./samples/test01.java")));
+	      	MiniJava p = new MiniJava(new FileInputStream(new File("./samples/test03.java")));
+	      	p.setTabSize(4);
 	    	ASTProgram root = p.Program();
 	    	//root.dump(">");
 
