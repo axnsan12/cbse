@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/movie-finder-json/movie-finder-json.iml" filepath="$PROJECT_DIR$/movie-finder-json/movie-finder-json.iml" />
+      <module fileurl="file://$PROJECT_DIR$/movie-finder-static/movie-finder-static.iml" filepath="$PROJECT_DIR$/movie-finder-static/movie-finder-static.iml" />
+      <module fileurl="file://$PROJECT_DIR$/movie-interface/movie-interface.iml" filepath="$PROJECT_DIR$/movie-interface/movie-interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/movie-lister/movie-lister.iml" filepath="$PROJECT_DIR$/movie-lister/movie-lister.iml" />
+      <module fileurl="file://$PROJECT_DIR$/osgi-lab.iml" filepath="$PROJECT_DIR$/osgi-lab.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,18 @@
+[
+  {
+    "title": "json-movie1",
+    "director": "director1"
+  },
+  {
+    "title": "json-movie2",
+    "director": "director2"
+  },
+  {
+    "title": "json-movie3",
+    "director": "director2"
+  },
+  {
+    "title": "json-movie4",
+    "director": "director3"
+  }
+]
