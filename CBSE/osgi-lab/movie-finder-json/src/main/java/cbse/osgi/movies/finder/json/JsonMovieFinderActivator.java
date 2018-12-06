@@ -9,11 +9,15 @@ public class JsonMovieFinderActivator implements BundleActivator {
     private ServiceRegistration registration;
 
     public void start(BundleContext context) {
-        JsonMovieFinder finder = new JsonMovieFinder(context.getBundle().getResource("movies.json"));
-        registration = context.registerService(MovieFinder.class, finder, null);
+        if (context.getBundle().getHeaders().get("Movie-Finder-Class") == null) {
+            JsonMovieFinder finder = new JsonMovieFinder(context.getBundle().getResource("movies.json"));
+            registration = context.registerService(MovieFinder.class, finder, null);
+        }
     }
 
     public void stop(BundleContext context) {
-        registration.unregister();
+        if (registration != null) {
+            registration.unregister();
+        }
     }
 }

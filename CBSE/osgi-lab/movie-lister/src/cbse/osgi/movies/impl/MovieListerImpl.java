@@ -22,7 +22,7 @@ public class MovieListerImpl implements MovieLister {
 
     protected void unbindFinder(MovieFinder finder) {
         finders.remove(finder);
-        System.out.println("MovieLister: removed a finder" + finder);
+        System.out.println("MovieLister: removed a finder " + finder);
         System.out.println("Movies directed by " + director + ": " + moviesDirectedBy(director));
     }
 

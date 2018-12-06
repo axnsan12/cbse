@@ -9,11 +9,15 @@ public class HardcodedMovieFinderActivator implements BundleActivator {
     private ServiceRegistration registration;
 
     public void start(BundleContext context) {
-        MovieFinder finder = new HardcodedMovieFinder();
-        registration = context.registerService(MovieFinder.class, finder, null);
+        if (context.getBundle().getHeaders().get("Movie-Finder-Class") == null) {
+            MovieFinder finder = new HardcodedMovieFinder();
+            registration = context.registerService(MovieFinder.class, finder, null);
+        }
     }
 
     public void stop(BundleContext context) {
-        registration.unregister();
+        if (registration != null) {
+            registration.unregister();
+        }
     }
 }

@@ -12,10 +12,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 public class JsonMovieFinder implements MovieFinder {
     private final Callable<InputStream> jsonInputFactory;
+
+    public JsonMovieFinder() {
+        this(Objects.requireNonNull(JsonMovieFinder.class.getClassLoader().getResource("movies.json")));
+    }
 
     public JsonMovieFinder(InputStream jsonInput) {
         jsonInputFactory = () -> jsonInput;

@@ -3,7 +3,9 @@
   <component name="FacetManager">
     <facet type="Osmorc" name="OSGi">
       <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="movie-finder-json.jar" outputPathType="OsgiOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="cbse.osgi.movies.finder.json.JsonMovieFinderActivator" bundleSymbolicName="cbse.osgi.movies.finder.json" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="true" doNotSynchronizeWithMaven="false">
-        <additionalProperties />
+        <additionalProperties>
+          <property key="Movie-Finder-Class" value="cbse.osgi.movies.finder.json.JsonMovieFinder" />
+        </additionalProperties>
         <additionalJARContents>
           <entry source="$MODULE_DIR$/src/main/resources" dest="" />
         </additionalJARContents>
