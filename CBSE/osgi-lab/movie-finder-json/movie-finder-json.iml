@@ -9,7 +9,7 @@
           <property key="Service-Component" value="provider.xml" />
         </additionalProperties>
         <additionalJARContents>
-          <entry source="$MODULE_DIR$/src/main/resources" dest="src/main/resources" />
+          <entry source="$MODULE_DIR$/src/main/resources" dest="" />
           <entry source="$MODULE_DIR$/provider.xml" dest="provider.xml" />
         </additionalJARContents>
       </configuration>
