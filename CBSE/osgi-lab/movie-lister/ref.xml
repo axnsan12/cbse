@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="MovieLister">
     <scr:implementation class="cbse.osgi.movies.impl.MovieListerImpl"/>
-    <scr:reference bind="bindFinder" unbind="unbindFinder" cardinality="1..n"
+    <scr:reference bind="bindFinder" unbind="unbindFinder" cardinality="0..n"
                    interface="cbse.osgi.movies.MovieFinder" name="MovieFinder"/>
 </scr:component>

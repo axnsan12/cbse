@@ -5,7 +5,6 @@
       <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="movie-finder-json.jar" outputPathType="OsgiOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="cbse.osgi.movies.finder.json" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="true" doNotSynchronizeWithMaven="false">
         <additionalProperties>
           <property key="Movie-Finder-Class" value="cbse.osgi.movies.finder.json.JsonMovieFinder" />
-          <property key="Bundle-ActivationPolicy" value="lazy" />
           <property key="Service-Component" value="provider.xml" />
         </additionalProperties>
         <additionalJARContents>
