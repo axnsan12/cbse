@@ -14,12 +14,14 @@ public class MovieListerImpl implements MovieLister {
     private Collection<MovieFinder> finders = Collections.synchronizedCollection(new ArrayList<>());
     private String director = "director2";
 
+    @SuppressWarnings("unused")
     protected void bindFinder(MovieFinder finder) {
         finders.add(finder);
         System.out.println("MovieLister: added a finder " + finder);
         System.out.println("Movies directed by " + director + ": " + moviesDirectedBy(director));
     }
 
+    @SuppressWarnings("unused")
     protected void unbindFinder(MovieFinder finder) {
         finders.remove(finder);
         System.out.println("MovieLister: removed a finder " + finder);

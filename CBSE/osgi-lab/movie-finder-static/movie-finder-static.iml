@@ -2,11 +2,15 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Osmorc" name="OSGi">
-      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="movie-finder-static.jar" outputPathType="OsgiOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="cbse.osgi.movies.finder.basic.HardcodedMovieFinderActivator" bundleSymbolicName="cbse.osgi.movies.finder.basic" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="true" doNotSynchronizeWithMaven="false">
+      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="movie-finder-static.jar" outputPathType="OsgiOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="cbse.osgi.movies.finder.basic" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="true" doNotSynchronizeWithMaven="false">
         <additionalProperties>
           <property key="Movie-Finder-Class" value="cbse.osgi.movies.finder.basic.HardcodedMovieFinder" />
+          <property key="Bundle-ActivationPolicy" value="lazy" />
+          <property key="Service-Component" value="provider.xml" />
         </additionalProperties>
-        <additionalJARContents />
+        <additionalJARContents>
+          <entry source="$MODULE_DIR$/provider.xml" dest="provider.xml" />
+        </additionalJARContents>
       </configuration>
     </facet>
   </component>

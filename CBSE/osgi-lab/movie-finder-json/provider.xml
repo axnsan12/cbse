@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="JsonMovieFinder">
+    <scr:implementation class="cbse.osgi.movies.finder.json.JsonMovieFinder"/>
+    <scr:service>
+        <scr:provide interface="cbse.osgi.movies.MovieFinder"/>
+    </scr:service>
+</scr:component>

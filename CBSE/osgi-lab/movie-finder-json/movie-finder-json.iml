@@ -2,12 +2,15 @@
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Osmorc" name="OSGi">
-      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="movie-finder-json.jar" outputPathType="OsgiOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="cbse.osgi.movies.finder.json.JsonMovieFinderActivator" bundleSymbolicName="cbse.osgi.movies.finder.json" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="true" doNotSynchronizeWithMaven="false">
+      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="movie-finder-json.jar" outputPathType="OsgiOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="cbse.osgi.movies.finder.json" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="true" doNotSynchronizeWithMaven="false">
         <additionalProperties>
           <property key="Movie-Finder-Class" value="cbse.osgi.movies.finder.json.JsonMovieFinder" />
+          <property key="Bundle-ActivationPolicy" value="lazy" />
+          <property key="Service-Component" value="provider.xml" />
         </additionalProperties>
         <additionalJARContents>
-          <entry source="$MODULE_DIR$/src/main/resources" dest="" />
+          <entry source="$MODULE_DIR$/src/main/resources" dest="src/main/resources" />
+          <entry source="$MODULE_DIR$/provider.xml" dest="provider.xml" />
         </additionalJARContents>
       </configuration>
     </facet>
@@ -25,5 +28,6 @@
     <orderEntry type="library" scope="PROVIDED" name="org.osgi.core-6.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.2" level="project" />
     <orderEntry type="module" module-name="movie-interface" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.2" level="project" />
   </component>
 </module>

@@ -2,9 +2,15 @@
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Osmorc" name="OSGi">
-      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="movie-lister.jar" outputPathType="OsgiOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="cbse.osgi.movies.impl.MovieListerActivator" bundleSymbolicName="cbse.osgi.movies.lister" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="true" doNotSynchronizeWithMaven="false">
-        <additionalProperties />
-        <additionalJARContents />
+      <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="movie-lister.jar" outputPathType="OsgiOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="cbse.osgi.movies.lister" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="true" doNotSynchronizeWithMaven="false">
+        <additionalProperties>
+          <property key="Bundle-ActivationPolicy" value="lazy" />
+          <property key="Service-Component" value="provider.xml, ref.xml" />
+        </additionalProperties>
+        <additionalJARContents>
+          <entry source="$MODULE_DIR$/provider.xml" dest="provider.xml" />
+          <entry source="$MODULE_DIR$/ref.xml" dest="ref.xml" />
+        </additionalJARContents>
       </configuration>
     </facet>
   </component>

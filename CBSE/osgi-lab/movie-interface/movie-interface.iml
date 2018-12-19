@@ -5,6 +5,7 @@
       <configuration manifestGenerationMode="OsmorcControlled" manifestLocation="" jarfileLocation="movie-interface.jar" outputPathType="OsgiOutputPath" bndFileLocation="" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="cbse.osgi.movies" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="true" doNotSynchronizeWithMaven="false">
         <additionalProperties>
           <property key="Export-Package" value="cbse.osgi.movies;version=&quot;1.0.0&quot;" />
+          <property key="Bundle-ActivationPolicy" value="lazy" />
         </additionalProperties>
         <additionalJARContents />
       </configuration>
@@ -18,5 +19,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="org.osgi.core-6.0.0" level="project" />
+    <orderEntry type="library" name="org.osgi.core-6.0.0" level="project" />
   </component>
 </module>
