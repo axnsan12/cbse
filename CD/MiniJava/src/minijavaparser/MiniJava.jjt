@@ -168,7 +168,7 @@ ASTProgram Program() #Program :
 void MainClass() #MainClass :
 {}
 {
-  < CLASS > < ID > < LACCOLADE > < PUBLIC > < STATIC > < VOID > < MAIN > < LPAREN > (< STRING > < LBRACKET > < RBRACKET > < ID >)? < RPAREN > 
+  < CLASS > ClassName() < LACCOLADE > < PUBLIC > < STATIC > < VOID > < MAIN > < LPAREN > (< STRING > < LBRACKET > < RBRACKET > < ID >)? < RPAREN > 
   MethodBody() 
   < RACCOLADE >
 }
@@ -176,7 +176,7 @@ void MainClass() #MainClass :
 void ClassDecl() #ClassDeclaration :
 {}
 {
-  < CLASS > < ID > (< EXTENDS > < ID >)? < LACCOLADE >
+  < CLASS > ClassName() (< EXTENDS > ClassName())? < LACCOLADE >
   (
     MethodDecl()
   | VarDecl()
@@ -187,7 +187,7 @@ void ClassDecl() #ClassDeclaration :
 void MethodDecl() #MethodDeclaration :
 {}
 {
-  < PUBLIC > (< STATIC >)? ReturnType() < ID > < LPAREN >
+  < PUBLIC > (< STATIC > { jjtThis.isStatic = true; })? ReturnType() FuncName() < LPAREN >
   (
     ParamDecl()
   )?
@@ -226,20 +226,20 @@ void VarType() :
     < STRING >
   | < BOOLEAN >
   | < INT >
-  | < ID >
+  | ClassName()
   )
 }
 
 void ParamDecl() #ParameterDeclaration :
 {}
 {
-  VarType() < ID >
+  VarType() VarName()
 }
 
 void VarDecl() #VariableDeclaration :
 {}
 {
-  VarType() < ID > < SEMICOLON >
+  VarType() VarName() < SEMICOLON >
 }
 
 void Statement() :
@@ -265,7 +265,7 @@ void LogicalExpr1() :
   LogicalExpr2()
   (
     < LOGICOP1 >
-    LogicalExpr2()
+    Expr()
   )*
 }
 
@@ -274,7 +274,7 @@ void LogicalExpr2() :
 {
   CmpExpr()
   (
-    < LOGICOP2 > CmpExpr()
+    < LOGICOP2 > Expr()
   )*
 }
 
@@ -283,7 +283,7 @@ void CmpExpr() :
 {
   BinaryExpr1()
   (
-    < COMPARATOR > BinaryExpr1()
+    < COMPARATOR > Expr()
   )*
 }
 
@@ -292,7 +292,7 @@ void BinaryExpr1() :
 {
   BinaryExpr2()
   (
-    < BINARYOP1 > BinaryExpr2()
+    < BINARYOP1 > Expr()
   )*
 }
 
@@ -301,7 +301,7 @@ void BinaryExpr2() :
 {
   PostExpr()
   (
-    < BINARYOP2 > PostExpr()
+    < BINARYOP2 > Expr()
   )*
 }
 
@@ -365,20 +365,32 @@ void PrimaryExpr() :
 | NewExpr()
 }
 
-void NewExpr() #NewExpression :
+void NewExpr() #NewExpression:
+{}
 {
-  Token className;
-}
-{
-  (< NEW > className = < ID >
-  {
-    jjtThis.className = className.image;
-  }
-  < LPAREN > < RPAREN >)
+  (< NEW > ClassName() < LPAREN > < RPAREN >)
 }
 
 void Expr() :
 {}
 {
   LogicalExpr1()
+}
+
+void ClassName() #ClassName:
+{}
+{
+	< ID >
+}
+
+void VarName() #VarName:
+{}
+{
+	< ID >
+}
+
+void FuncName() #FuncName:
+{}
+{
+	< ID >
 }

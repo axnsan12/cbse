@@ -3,7 +3,6 @@
 package minijavaparser;
 
 public class ASTNewExpression extends progen.ProgenNode {
-	public String className;
 	
 	public ASTNewExpression(int id) {
 		super(id);
