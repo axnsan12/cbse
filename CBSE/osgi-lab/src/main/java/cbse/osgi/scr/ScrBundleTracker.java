@@ -4,22 +4,27 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
 import org.osgi.util.tracker.BundleTracker;
+import org.osgi.util.tracker.ServiceTracker;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class ScrBundleTracker extends BundleTracker<Void> {
-    public ScrBundleTracker(BundleContext context) {
+public class ScrBundleTracker extends BundleTracker<Bundle> {
+    private final BundleContext context;
+    private final ScrResolver resolver;
+    private final List<ScrServiceTracker> serviceTrackers = new ArrayList<>();
+
+    public ScrBundleTracker(BundleContext context, ScrResolver resolver) {
         super(context, Bundle.ACTIVE, null);
+        this.context = context;
+        this.resolver = resolver;
     }
 
     private String readBundleFile(Bundle bundle, String pathInBundle) throws IOException {
@@ -83,7 +88,7 @@ public class ScrBundleTracker extends BundleTracker<Void> {
         ArrayList<ScrComponent> components = new ArrayList<>();
 
         if (componentsCsv == null || componentsCsv.isEmpty()) {
-            System.out.println("Bundle " + bundle.getSymbolicName() + " has no Service-Component manifest header");
+            System.out.println("--- Bundle " + bundle.getSymbolicName() + " has no Service-Component manifest header");
             return components;
         }
 
@@ -96,9 +101,9 @@ public class ScrBundleTracker extends BundleTracker<Void> {
 
                 ScrComponent component = new ScrComponent(bundle, implClass, provided, referenced);
                 components.add(component);
-                System.out.println("Parsed component config " + component);
+                System.out.println("--- Parsed component config " + component);
             } catch (Throwable t) {
-                System.err.println("Error reading config file " + componentPath);
+                System.err.println("--- Error reading config file " + componentPath);
                 t.printStackTrace();
             }
         }
@@ -106,16 +111,29 @@ public class ScrBundleTracker extends BundleTracker<Void> {
         return components;
     }
 
-    private Map<Class<?>, ScrComponent> componentsByImplClass = new HashMap<>();
 
     @Override
-    public Void addingBundle(Bundle bundle, BundleEvent event) {
-        getComponents(bundle).forEach(c -> componentsByImplClass.merge(c.implClass, c, ScrComponent::new));
-        return null;
+    public Bundle addingBundle(Bundle bundle, BundleEvent event) {
+        List<ScrComponent> components = getComponents(bundle);
+        components.forEach(resolver::addComponent);
+        resolver.tryResolve();
+        components.forEach(c -> c.requiredServices.forEach(ref -> serviceTrackers.add(new ScrServiceTracker(context, ref.serviceClass, resolver))));
+        return bundle;
     }
 
     @Override
-    public void removedBundle(Bundle bundle, BundleEvent event, Void object) {
-        componentsByImplClass.entrySet().removeIf(e -> bundle.equals(e.getValue().bundle));
+    public void modifiedBundle(Bundle bundle, BundleEvent event, Bundle object) {
+
+    }
+
+    @Override
+    public void removedBundle(Bundle bundle, BundleEvent event, Bundle trackedObject) {
+        resolver.removedBundle(bundle);
+    }
+
+    @Override
+    public void close() {
+        serviceTrackers.forEach(ServiceTracker::close);
+        super.close();
     }
 }
