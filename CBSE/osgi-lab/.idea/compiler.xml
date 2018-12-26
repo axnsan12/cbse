@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="movie-finder-json" />
+        <module name="osgi-lab" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="movie-finder-json" target="8" />
+      <module name="osgi-lab" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
