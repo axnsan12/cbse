@@ -4,6 +4,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/movie-finder-json/pom.xml" />
+        <option value="$PROJECT_DIR$/movie-finder-static/pom.xml" />
+        <option value="$PROJECT_DIR$/movie-lister/pom.xml" />
       </list>
     </option>
   </component>

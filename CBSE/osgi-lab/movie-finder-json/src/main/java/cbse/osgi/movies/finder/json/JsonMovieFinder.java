@@ -5,6 +5,9 @@ import cbse.osgi.movies.MovieFinder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import org.apache.felix.ipojo.annotations.Component;
+import org.apache.felix.ipojo.annotations.Instantiate;
+import org.apache.felix.ipojo.annotations.Provides;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,6 +18,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Callable;
 
+@Component
+@Provides
+@Instantiate
 public class JsonMovieFinder implements MovieFinder {
     private final Callable<InputStream> jsonInputFactory;
 

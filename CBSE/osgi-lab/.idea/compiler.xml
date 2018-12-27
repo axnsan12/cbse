@@ -7,10 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="movie-finder-json" />
+        <module name="movie-finder-static" />
+        <module name="movie-lister" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="movie-finder-json" target="8" />
+      <module name="movie-finder-static" target="8" />
+      <module name="movie-lister" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

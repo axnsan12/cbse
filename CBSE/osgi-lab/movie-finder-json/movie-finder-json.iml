@@ -23,7 +23,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="org.osgi.core-6.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.2" level="project" />
     <orderEntry type="module" module-name="movie-interface" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.felix:org.apache.felix.ipojo:1.12.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.felix:org.apache.felix.ipojo.metadata:1.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.felix:org.apache.felix.ipojo.annotations:1.12.1" level="project" />
+    <orderEntry type="library" name="Maven: org.ow2.asm:asm-all:5.0.2" level="project" />
   </component>
 </module>
