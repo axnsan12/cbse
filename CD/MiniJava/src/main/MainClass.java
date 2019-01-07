@@ -3,6 +3,7 @@ package main;
 import java.io.*;
 import mainframe.MainFrame;
 import minijavaparser.*;
+import progen.CD05Visitor;
 
 public class MainClass 
 {
@@ -14,6 +15,8 @@ public class MainClass
 	      	MiniJava p = new MiniJava(new FileInputStream(new File("./samples/test03.java")));
 	      	p.setTabSize(4);
 	    	ASTProgram root = p.Program();
+	    	CD05Visitor visitor = new CD05Visitor();
+	    	visitor.visit(root, null);
 	    	//root.dump(">");
 
 			MainFrame frame=new MainFrame(root);
