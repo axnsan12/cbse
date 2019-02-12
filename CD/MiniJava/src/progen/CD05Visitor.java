@@ -70,8 +70,7 @@ public class CD05Visitor implements MiniJavaVisitor	 {
 
 	@Override
 	public Object visit(ASTBlockStatement node, Object data) {
-		// TODO Auto-generated method stub
-		return null;
+		return visit((SimpleNode) node, data);
 	}
 
 	@Override
